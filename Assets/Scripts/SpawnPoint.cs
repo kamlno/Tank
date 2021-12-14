@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnPoint : MonoBehaviour
+namespace Tanks
 {
-    // Start is called before the first frame update
-    void Start()
+    public class SpawnPoint : MonoBehaviour
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        void Awake()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
