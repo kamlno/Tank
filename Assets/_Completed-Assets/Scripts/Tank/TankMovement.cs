@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Tanks;
+using UnityEngine;
 
 namespace Complete
 {
@@ -19,10 +20,13 @@ namespace Complete
         private float m_TurnInputValue;             // The current value of the turn input.
         private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
         private ParticleSystem[] m_particleSystems; // References to all the particles systems used by the Tanks
-
+        
+        //HW
+        public Transform TankTurret;
         private void Awake ()
         {
             m_Rigidbody = GetComponent<Rigidbody> ();
+            TankTurret = transform.FindAnyChild<Transform>("TankTurret");
         }
 
 
@@ -64,9 +68,9 @@ namespace Complete
             // The axes names are based on player number.
             m_MovementAxisName = "Vertical";
             m_TurnAxisName = "Horizontal";
-
-            // Store the original pitch of the audio source.
-            m_OriginalPitch = m_MovementAudio.pitch;
+        
+        // Store the original pitch of the audio source.
+        m_OriginalPitch = m_MovementAudio.pitch;
         }
 
 
@@ -113,6 +117,7 @@ namespace Complete
             // Adjust the rigidbodies position and orientation in FixedUpdate.
             Move ();
             Turn ();
+            TurretTurn();
         }
 
 
@@ -136,6 +141,24 @@ namespace Complete
 
             // Apply this rotation to the rigidbody's rotation.
             m_Rigidbody.MoveRotation (m_Rigidbody.rotation * turnRotation);
+        }
+        public void TurretTurn()
+        {
+            //Debug.Log("ininininin");
+            var pressQ = Input.GetKey(KeyCode.Q);
+            var pressE = Input.GetKey(KeyCode.E);
+            //var turn = m_TurnInputValue * Time.deltaTime;
+            if (pressQ == true)
+            {
+                //Debug.Log("QQQQQQQQQQQ");
+                TankTurret.Rotate(0f, 10f, 0f);
+            }
+            else if (pressE == true)
+            {
+                //Debug.Log("EEEEEEEEEEE");
+                TankTurret.Rotate(0f, -10f, 0f) ;
+            }
+
         }
     }
 }

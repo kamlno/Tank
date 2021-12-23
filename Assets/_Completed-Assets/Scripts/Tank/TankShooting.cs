@@ -45,13 +45,13 @@ namespace Complete
 
         private void Update ()
         {
-            // The slider should have a default value of the minimum launch force.
+            // The slider should have a default value of the minimum launch force.  
             m_AimSlider.value = m_MinLaunchForce;
 
-            // If the max force has been exceeded and the shell hasn't yet been launched...
+            // If the max force has been exceeded and the shell hasn't yet been launched...  
             if (m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired)
             {
-                // ... use the max force and launch the shell.
+                // ... use the max force and launch the shell. 
                 m_CurrentLaunchForce = m_MaxLaunchForce;
                 Fire ();
             }
@@ -91,7 +91,7 @@ namespace Complete
             // Create an instance of the shell and store a reference to it's rigidbody.
             Rigidbody shellInstance =
                 Instantiate (m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
-            photonView.RPC("FireOther", RpcTarget.Others, m_FireTransform.position);
+            photonView.RPC("FireOther", RpcTarget.Others, m_FireTransform.position, m_CurrentLaunchForce);
             // Set the shell's velocity to the launch force in the fire position's forward direction.
             shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward; 
 
@@ -103,12 +103,11 @@ namespace Complete
             m_CurrentLaunchForce = m_MinLaunchForce;
         }
         [PunRPC]
-        private void FireOther(Vector3 pos)
+        private void FireOther(Vector3 pos, float m_CurrentLaunchForce)
         {
             m_Fired = true;
             Rigidbody shellInstance = Instantiate(m_Shell, pos, m_FireTransform.rotation) as Rigidbody;
             shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward;
-            m_CurrentLaunchForce = m_MinLaunchForce;
         }
     }
 }
